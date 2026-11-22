@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#08191c"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>息律 · 呼吸肌训练</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:dark;background:#071517;color:#eaf6f1}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(ellipse at 50% 35%,#163d40 0%,#0a1e21 49%,#071517 100%);-webkit-font-smoothing:antialiased}
+.app{width:min(100%,550px);margin:auto;min-height:100dvh;padding:calc(20px + env(safe-area-inset-top)) 23px calc(22px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:13px;letter-spacing:.22em;color:#b5ded5;font-weight:650}.tag{font-size:11px;color:#82ada8;border:1px solid #2c5352;border-radius:99px;padding:5px 10px}
+h1{font-size:25px;margin:9px 0 5px;letter-spacing:-.5px;font-weight:760}.lead{margin:0;color:#a3c1b9;font-size:12px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:13px 6px;background:#ffffff08;border:1px solid #ffffff12;border-radius:17px;text-align:center}.stat .value{font-size:24px;font-weight:720;letter-spacing:-.4px;font-variant-numeric:tabular-nums}.stat small{font-size:11px;color:#91b6af;display:block;margin-top:5px}
+.stage{position:relative;height:320px;display:flex;justify-content:center;align-items:center;isolation:isolate;overflow:hidden}.stage:before{content:"";width:272px;height:272px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px dashed #72e1bd40;border-radius:50%}.stage:after{content:"";width:216px;height:216px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid #72e1bd16;border-radius:50%}
+.orb{position:absolute;left:50%;top:50%;height:258px;width:258px;border-radius:50%;transform:translate(-50%,-50%) scale(.54);background:radial-gradient(circle at 34% 25%,#c1fff2 0%,#64e7c9 36%,#1ba58e 74%,#116f74 100%);box-shadow:0 0 40px #45e8c53b,0 0 110px #1ac5ab24,inset -12px -18px 34px #075d6159;will-change:transform;z-index:1;transition:none}.orb-gloss{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 20%,#ffffff72,transparent 44%)}
+.readout{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center;color:#f4fffa;text-shadow:0 1px 12px #003d3740}.phase{font-size:32px;font-weight:780;letter-spacing:.12em;margin-left:.12em}.seconds{font-size:47px;line-height:1.25;font-weight:680;letter-spacing:-2px;font-variant-numeric:tabular-nums}.seconds small{font-size:14px;font-weight:450;letter-spacing:0;margin-left:4px}.hint{font-size:12px;color:#d2f6e9;min-height:22px;margin-top:9px;letter-spacing:.05em}.phase-tip{text-align:center;font-size:12px;color:#95bbb4;min-height:20px;margin-top:-4px}
+.progress{height:5px;border-radius:100px;background:#ffffff19;overflow:hidden}.progress>div{height:100%;background:linear-gradient(90deg,#49c7aa,#b4ffe2);width:0%;border-radius:100px;transition:width .12s linear}
+.controls{display:flex;gap:10px}.btn{border:0;border-radius:18px;min-height:52px;padding:10px 16px;font-weight:700;font-size:16px;cursor:pointer;-webkit-tap-highlight-color:transparent}.btn-primary{flex:1;background:#b0f8dd;color:#08372f;box-shadow:0 10px 25px #0cd7a319}.btn-secondary{background:#173b3c;color:#b9e4d8;border:1px solid #30565a}.btn:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #b0f8dd;outline-offset:2px}
+.panel{border:1px solid #ffffff1c;background:#0615186b;border-radius:21px;padding:14px 15px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:5px}.panel-title{font-size:13px;font-weight:680;color:#d7f3e8}.panel-note{font-size:11px;color:#89aca5}.settings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.setting span{display:block;font-size:11px;color:#9bbdb5;margin-bottom:8px}.setting select{width:100%;border-radius:12px;background:#153337;border:1px solid #376064;color:#ecfff6;padding:10px 8px;font-size:14px;font-weight:700;appearance:auto}
+.toggles{display:flex;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}.toggle{display:flex;gap:7px;align-items:center;color:#d0e8e0;font-size:12px}.toggle input{accent-color:#71e5c2;width:16px;height:16px}.toggle.disabled{opacity:.55}.help{font-size:11px;color:#8eb2aa;line-height:1.7;margin-top:12px}.status{font-size:12px;line-height:1.5;color:#a8dfcd;min-height:18px}.footer{font-size:11px;line-height:1.7;color:#729b95;margin:0;text-align:center}
+@media(min-height:780px){.app{gap:19px}.stage{height:355px}}@media(max-height:700px){.app{gap:11px;padding-top:15px}.stage{height:275px}.orb{width:222px;height:222px}.stage:before{width:238px;height:238px}.stage:after{width:185px;height:185px}.phase{font-size:28px}.seconds{font-size:40px}}
+@media(prefers-reduced-motion:reduce){.progress>div{transition:none}}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="top"><div class="brand">息律 · BREATH TRAINER</div><div class="tag">呼吸肌节拍器</div></div>
+  <div><h1>跟着圆圈，自然呼吸</h1><p class="lead">圆圈放大时吸气 · 缩小时呼气 · 每完成一轮计 1 次</p></div>
+  <div class="stats" aria-label="训练统计">
+    <div class="stat"><div class="value" id="done">0 / 30</div><small>已完成 / 目标次数</small></div>
+    <div class="stat"><div class="value" id="elapsed">00:00</div><small>训练秒表</small></div>
+    <div class="stat"><div class="value" id="remaining">04:00</div><small>预计剩余</small></div>
+  </div>
+  <div class="stage" role="img" aria-label="吸气圆圈放大，呼气圆圈缩小">
+    <div class="orb" id="orb"><div class="orb-gloss"></div></div>
+    <div class="readout"><div class="phase" id="phase">准备</div><div class="seconds" id="seconds">3.0<small>秒</small></div><div class="hint" id="hint">轻松开始，不要屏气</div></div>
+  </div>
+  <div class="phase-tip" id="tip" aria-live="polite">吸气 3 秒 → 呼气 5 秒</div>
+  <div class="progress"><div id="progress"></div></div>
+  <div class="controls">
+    <button class="btn btn-primary" id="start" type="button">▶ 开始训练</button>
+    <button class="btn btn-secondary" id="reset" type="button">重置</button>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">训练设置</span><span class="panel-note">说明书范围：吸 2–3 秒 / 呼 4–6 秒</span></div>
+    <div class="settings">
+      <label class="setting"><span>吸气时间</span><select id="insec" aria-label="吸气秒数"><option value="2">2 秒</option><option value="2.5">2.5 秒</option><option value="3" selected>3 秒</option></select></label>
+      <label class="setting"><span>呼气时间</span><select id="outsec" aria-label="呼气秒数"><option value="4">4 秒</option><option value="5" selected>5 秒</option><option value="6">6 秒</option></select></label>
+      <label class="setting"><span>训练次数</span><select id="target" aria-label="目标次数"><option value="8">8 次 · 适应</option><option value="15">15 次</option><option value="30" selected>30 次 · 标准</option></select></label>
+    </div>
+    <div class="toggles">
+      <label class="toggle"><input id="sound" type="checkbox" checked>转换提示音</label>
+      <label class="toggle" id="vibrateWrap"><input id="vibrate" type="checkbox">设备震动</label>
+    </div>
+    <div class="help" id="compat">iPhone Safari 通常不能让网页自动触发震动；可以开启提示音代替。请保持页面在前台。</div>
+  </div>
+  <div class="status" id="status" aria-live="polite">就绪 · 首次适应建议先选 8 次和低阻力。</div>
+  <p class="footer">不必强行把肺吸满或呼空。出现胸痛、胸闷、头晕或明显气短，立即停止练习。</p>
+</main>
+<script>
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const ui = {orb:$('orb'),phase:$('phase'),seconds:$('seconds'),hint:$('hint'),tip:$('tip'),done:$('done'),elapsed:$('elapsed'),remaining:$('remaining'),progress:$('progress'),start:$('start'),reset:$('reset'),insec:$('insec'),outsec:$('outsec'),target:$('target'),sound:$('sound'),vibrate:$('vibrate'),vibrateWrap:$('vibrateWrap'),status:$('status'),compat:$('compat')};
+  let running=false,started=false,finished=false,phase='in',phaseStart=0,phaseOffset=0,completed=0,raf=0,flashUntil=0,flashMessage='',audioCtx=null,wakeLock=null;
+  const settings=()=>({inhale:Number(ui.insec.value),exhale:Number(ui.outsec.value),target:Number(ui.target.value)});
+  const isVibrationSupported = typeof navigator.vibrate==='function';
+  if(!isVibrationSupported){ui.vibrate.disabled=true;ui.vibrateWrap.classList.add('disabled');ui.compat.textContent='你的浏览器不支持网页自动震动；iPhone Safari 上以提示音和圆圈为主，若需真正震动，需要原生 iOS App。';}
+  function mmss(seconds){const n=Math.max(0,Math.ceil(seconds));return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
+  function playTone(freq,duration){if(!ui.sound.checked)return;try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;if(!audioCtx)audioCtx=new C();if(audioCtx.state==='suspended')audioCtx.resume();const osc=audioCtx.createOscillator();const gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.07,audioCtx.currentTime+.015);gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+duration+.02);}catch(e){/* no audio device */}}
+  function pulse(){if(ui.vibrate.checked&&isVibrationSupported)try{navigator.vibrate(80);}catch(e){}}
+  function signal(type){if(type==='in')playTone(680,.13);else if(type==='out')playTone(410,.16);else{playTone(760,.2);setTimeout(()=>playTone(960,.24),230);}pulse();}
+  async function keepAwake(){try{if('wakeLock'in navigator&&!wakeLock)wakeLock=await navigator.wakeLock.request('screen');}catch(e){}}
+  async function releaseWake(){try{if(wakeLock)await wakeLock.release();}catch(e){}wakeLock=null;}
+  function flash(message,now){flashMessage=message;flashUntil=now+700;}
+  function render(now=performance.now()){
+    const s=settings();const cycle=s.inhale+s.exhale;const dur=phase==='in'?s.inhale:s.exhale;
+    const pos=finished?0:(running?Math.max(0,(now-phaseStart)/1000):phaseOffset);
+    const bounded=Math.min(dur,Math.max(0,pos));const fraction=dur>0?bounded/dur:0;
+    const ease=(1-Math.cos(Math.PI*fraction))/2;const grow=finished?0:phase==='in'?ease:1-ease;
+    ui.orb.style.transform=`translate(-50%,-50%) scale(${(.54+.46*grow).toFixed(4)})`;
+    const elapsed=finished?s.target*cycle:completed*cycle+(phase==='out'?s.inhale:0)+bounded;
+    const total=s.target*cycle;
+    ui.done.textContent=completed+' / '+s.target;
+    ui.elapsed.textContent=mmss(elapsed);
+    ui.remaining.textContent=mmss(total-elapsed);
+    ui.progress.style.width=(100*Math.min(1,elapsed/total)).toFixed(2)+'%';
+    ui.phase.textContent=finished?'已完成':started?phase==='in'?'吸气':'呼气':'准备';
+    ui.seconds.innerHTML=(finished?'0.0':(dur-bounded).toFixed(1))+'<small>秒</small>';
+    ui.hint.textContent=finished?'做得好，放松休息':!started?'准备好后点击开始':!running?'已暂停':phase==='in'?'圆圈扩大 · 平稳吸气':'圆圈缩小 · 缓慢呼气';
+    if(running&&now<flashUntil)ui.tip.textContent=flashMessage;
+    else ui.tip.textContent=finished?'本组结束':!running&&started?'暂停中 · 点击继续':`吸气 ${s.inhale} 秒 → 呼气 ${s.exhale} 秒`;
+    ui.start.textContent=finished?'↻ 再来一组':running?'Ⅱ 暂停':'▶ '+(started?'继续训练':'开始训练');
+  }
+  function frame(now){if(!running)return;const s=settings();let k=0;
+    while(running&&k++<100){const duration=(phase==='in'?s.inhale:s.exhale)*1000;if(now-phaseStart<duration)break;
+      phaseStart+=duration;
+      if(phase==='in'){phase='out';flash('吸气结束 · 开始呼气',now);signal('out');}
+      else{completed++;if(completed>=s.target){running=false;finished=true;started=true;phaseOffset=0;ui.status.textContent='本组已完成 '+s.target+' 次。请摘下咬嘴，正常呼吸休息。';signal('done');releaseWake();break;}
+        phase='in';flash('呼气结束 · 开始吸气',now);signal('in');}
+    }
+    render(now);if(running)raf=requestAnimationFrame(frame);
+  }
+  function setSettingsLocked(value){[ui.insec,ui.outsec,ui.target].forEach(el=>el.disabled=value);}
+  function reset(){cancelAnimationFrame(raf);running=false;started=false;finished=false;phase='in';phaseOffset=0;completed=0;flashUntil=0;setSettingsLocked(false);releaseWake();ui.status.textContent='就绪 · 初次适应建议先选 8 次和低阻力。';render();}
+  function pause(reason){if(!running)return;phaseOffset=Math.max(0,(performance.now()-phaseStart)/1000);running=false;cancelAnimationFrame(raf);releaseWake();ui.status.textContent=reason||'已暂停，呼吸自然恢复后可以继续。';render();}
+  function start(){if(finished)reset();if(running){pause();return;}
+    if(!started){started=true;phase='in';phaseOffset=0;completed=0;setSettingsLocked(true);}
+    running=true;phaseStart=performance.now()-phaseOffset*1000;ui.status.textContent='训练中 · 按圆圈自然吸气与呼气，不要憋气。';
+    playTone(660,.13);pulse();keepAwake();render();raf=requestAnimationFrame(frame);
+  }
+  ui.start.addEventListener('click',start);ui.reset.addEventListener('click',reset);
+  [ui.insec,ui.outsec,ui.target].forEach(el=>el.addEventListener('change',()=>{if(!started)render();}));
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&running)pause('离开页面后已自动暂停，避免计时错位。');});
+  window.addEventListener('pagehide',()=>{if(running)pause('页面关闭后已暂停。');});
+  render();
+})();
+</script>
+</body></html>
